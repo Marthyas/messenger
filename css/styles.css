@@ -19,3 +19,18 @@ body{
     font-size: 18px;
     color: white;
 }
+
+.chat{
+    background-color: black;
+    color: white;
+    padding: 40px;
+    /* margin-top: 20px; */
+    border-radius: 5px;
+    border:solid black 3px;
+
+}
+
+.submit{
+    background-color:white;
+    color:black;
+}

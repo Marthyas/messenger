@@ -1,5 +1,11 @@
 <?php
+session_start();
 
+if(isset($_POST['logout'])){
+    unset($_SESSION['account']);
+    header('Location: logout.php');
+    return;
+}
 
 if(!isset($_GET["name"])){
     error_log("Attempted access without logging in");
@@ -7,8 +13,17 @@ if(!isset($_GET["name"])){
 
 } else {
     require_once "pdo.php";
+    $_SESSION['account'] = $_GET["name"];
 }
 
+/* if(isset($_POST['submit'])){
+    
+    $sql = "INSERT INTO member (name) VALUES (:name)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(array(':name' => $_SESSION['account']));
+    header('Location: chatroom.php?name='.urlencode($_SESSION['account']));
+    return;
+} */
 
 ?>
 <!DOCTYPE html>
@@ -29,19 +44,29 @@ if(!isset($_GET["name"])){
     <title>ChatRoom</title>
 </head>
 <body>
-    <div class="row">
-    <button style="margin:20px" class="btn btn-danger"><a href="logout.php"> Log Out</a></button>
-<p><h1 style="text-align:center; margin:20px"><?php echo "Welcome to ChatRoom, ".htmlentities($_GET['name'])."!"?></h1></p>
+    <div class="row" style="text-align:center; margin:20px; padding:20px">
+    <!-- <button style="margin:20px" class="btn btn-danger"><a href="logout.php"> Log Out</a></button> -->
+<p><h1 style="margin: 0 auto"><?php echo "Welcome to ChatRoom, ".htmlentities($_GET['name'])."!"?> </h1>
+
 </div>    
 <div class="container">
-        <div class="row" style="color:black; margin:20px">
-            This is a testing text. This is a testing text.This is a testing text.This is a testing text.This is a testing text.
-            This is a testing text. This is a testing text.This is a testing text.This is a testing text.This is a testing text.
-            This is a testing text. This is a testing text.This is a testing text.This is a testing text.This is a testing text.
-            This is a testing text. This is a testing text.This is a testing text.This is a testing text.This is a testing text.
-        </div>
-        <div class="row chat">
-
+    <p><b>Message:</b></p>
+        <div class="chat">
+            <form method="post">
+                <div class="form-group row"> 
+                <p><b><?php echo htmlentities($_GET['name'].":") ?></b></p>
+                    <div class="col-sm-7">
+                        <b><input type="textarea" class="form-control" name="message" value="" id="message"></b>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="submit" class="submit" name="submit" value="Odeslat">
+                        
+                    </div>
+                    <div class="col-sm-2">
+                    <input type="submit" class="submit" name="logout" value="Odhlásit">
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </body>
