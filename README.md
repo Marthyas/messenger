@@ -1,3 +1,3 @@
 # messenger
 
-My first attempt with PHP
+My first attempt with PHP using GIT
